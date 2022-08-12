@@ -4,6 +4,7 @@ import { render } from 'react-blessed';
 import * as dotenv from 'dotenv';
 import { App } from './App';
 import { MemoryRouter } from 'react-router';
+import { ClientProvider } from './auth/ClientProvider';
 
 global.console = require('inspector').console;
 
@@ -26,7 +27,9 @@ screen.key(['q', 'C-c'], () => process.exit(0));
 
 render(
   <MemoryRouter>
-    <App />
+    <ClientProvider>
+      <App />
+    </ClientProvider>
   </MemoryRouter>,
   screen
 );
