@@ -10,9 +10,8 @@ const FormData = require('form-data');
 const PORT = 3000;
 
 export const getCode = (): Promise<string> => {
-  return new Promise<string>((resolve, reject) => {
+  return new Promise<string>((resolve) => {
     fs.readFile('./src/auth/auth.html', (err, html) => {
-      console.log(err);
       http
         .createServer(async (req, res) => {
           if (!req.url) {
@@ -46,9 +45,11 @@ export const getCode = (): Promise<string> => {
             process.env.CLIENT_ID!,
             access_token
           );
+          resolve(access_token);
         })
         .listen(PORT);
     });
+
     open(
       `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user%20read:org%20public_repo%20admin:enterprise&state=abc`
     );
